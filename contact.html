@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | JayyBl3nz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a1a2e',
+                        secondary: '#16213e',
+                        accent: '#c9a227',
+                        gold: '#d4af37',
+                        cream: '#f5f5dc',
+                        charcoal: '#36454f',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .gold-underline {
+            position: relative;
+        }
+
+        .gold-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c9a227;
+            transition: width 0.3s ease;
+        }
+
+        .gold-underline:hover::after {
+            width: 100%;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* Contact card hover */
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1);
+        }
+
+        .contact-icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-body bg-cream text-charcoal">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-primary/95 backdrop-blur-sm shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                        <span class="font-display text-primary text-xl font-bold">JB</span>
+                    </div>
+                    <span class="font-display text-2xl text-white">JayyBl3nz</span>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors gold-underline">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors gold-underline">Gallery</a>
+                    <a href="shop.html" class="text-white hover:text-accent transition-colors gold-underline">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors gold-underline">About</a>
+                    <a href="contact.html" class="text-accent font-medium gold-underline">Contact</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl md:hidden">
+            <div class="p-6">
+                <button id="close-menu" class="text-white mb-8">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors text-lg">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors text-lg">Gallery</a>
+                    <a href="shop.html" class="text-white hover:text-accent transition-colors text-lg">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors text-lg">About</a>
+                    <a href="contact.html" class="text-accent font-medium text-lg">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary via-secondary to-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-display text-5xl md:text-6xl text-white mb-6 animate-fadeInUp">
+                Let's <span class="text-accent">Connect</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeInUp animation-delay-200">
+                Ready to book an appointment or have a question? Reach out through any of these channels.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Options -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 gap-8">
+                <!-- Instagram -->
+                <a href="https://instagram.com/jmath3w09" target="_blank" class="contact-card bg-cream rounded-2xl p-10 text-center block scroll-animate">
+                    <div class="contact-icon w-20 h-20 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-primary mb-2">Instagram</h3>
+                    <p class="text-accent font-semibold text-lg mb-2">@jmath3w09</p>
+                    <p class="text-gray-500 text-sm">Follow for daily cuts & style inspiration</p>
+                </a>
+
+                <!-- TikTok -->
+                <a href="https://tiktok.com/@jayyyblends" target="_blank" class="contact-card bg-cream rounded-2xl p-10 text-center block scroll-animate animation-delay-200">
+                    <div class="contact-icon w-20 h-20 bg-black rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-primary mb-2">TikTok</h3>
+                    <p class="text-accent font-semibold text-lg mb-2">@jayyyblends</p>
+                    <p class="text-gray-500 text-sm">Watch transformation videos</p>
+                </a>
+
+                <!-- Phone -->
+                <a href="tel:+18329552305" class="contact-card bg-cream rounded-2xl p-10 text-center block scroll-animate">
+                    <div class="contact-icon w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-primary mb-2">Call or Text</h3>
+                    <p class="text-accent font-semibold text-lg mb-2">+1 (832) 955-2305</p>
+                    <p class="text-gray-500 text-sm">Text is preferred for bookings</p>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:joelw!@gmail.com" class="contact-card bg-cream rounded-2xl p-10 text-center block scroll-animate animation-delay-200">
+                    <div class="contact-icon w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-primary mb-2">Email</h3>
+                    <p class="text-accent font-semibold text-lg mb-2">joelw!@gmail.com</p>
+                    <p class="text-gray-500 text-sm">For inquiries & collaborations</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-primary">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-animate">
+            <h2 class="font-display text-4xl text-white mb-6">Ready for a Fresh Cut?</h2>
+            <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                Reach out through any of the channels above and I'll get back to you within 24 hours.
+            </p>
+            <a href="services.html" class="inline-block bg-accent text-primary px-10 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+                View My Work
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                            <span class="font-display text-primary text-lg font-bold">JB</span>
+                        </div>
+                        <span class="font-display text-xl text-white">JayyBl3nz</span>
+                    </a>
+                    <p class="text-gray-400 text-sm mt-2">Fresh cuts. Fresh style.</p>
+                </div>
+
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="index.html" class="text-gray-400 hover:text-accent transition-colors text-sm">Home</a>
+                    <a href="services.html" class="text-gray-400 hover:text-accent transition-colors text-sm">Gallery</a>
+                    <a href="shop.html" class="text-gray-400 hover:text-accent transition-colors text-sm">Shop</a>
+                    <a href="about.html" class="text-gray-400 hover:text-accent transition-colors text-sm">About</a>
+                    <a href="contact.html" class="text-gray-400 hover:text-accent transition-colors text-sm">Contact</a>
+                </div>
+
+                <div class="flex space-x-4">
+                    <a href="https://instagram.com/jmath3w09" target="_blank" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-gray-400 hover:text-accent hover:bg-accent/10 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://tiktok.com/@jayyyblends" target="_blank" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-gray-400 hover:text-accent hover:bg-accent/10 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2024 JayyBl3nz. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

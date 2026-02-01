@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Clothing | JayyBl3nz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a1a2e',
+                        secondary: '#16213e',
+                        accent: '#c9a227',
+                        gold: '#d4af37',
+                        cream: '#f5f5dc',
+                        charcoal: '#36454f',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .gold-underline {
+            position: relative;
+        }
+
+        .gold-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c9a227;
+            transition: width 0.3s ease;
+        }
+
+        .gold-underline:hover::after {
+            width: 100%;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* Product image hover */
+        .product-image {
+            overflow: hidden;
+        }
+
+        .product-image img, .product-image div {
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img,
+        .product-card:hover .product-image div {
+            transform: scale(1.08);
+        }
+
+        /* Filter buttons */
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: #c9a227;
+            color: #1a1a2e;
+        }
+
+        /* Category badge */
+        .product-card .absolute {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="font-body bg-cream text-charcoal">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-primary/95 backdrop-blur-sm shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                        <span class="font-display text-primary text-xl font-bold">JB</span>
+                    </div>
+                    <span class="font-display text-2xl text-white">JayyBl3nz</span>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors gold-underline">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors gold-underline">Gallery</a>
+                    <a href="shop.html" class="text-accent font-medium gold-underline">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors gold-underline">About</a>
+                    <a href="contact.html" class="text-white hover:text-accent transition-colors gold-underline">Contact</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl md:hidden">
+            <div class="p-6">
+                <button id="close-menu" class="text-white mb-8">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors text-lg">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors text-lg">Gallery</a>
+                    <a href="shop.html" class="text-accent font-medium text-lg">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors text-lg">About</a>
+                    <a href="contact.html" class="text-white hover:text-accent transition-colors text-lg">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary via-secondary to-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-display text-5xl md:text-6xl text-white mb-6 animate-fadeInUp">
+                Curated <span class="text-accent">Fashion</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeInUp animation-delay-200">
+                Hand-picked vintage and contemporary pieces. Quality clothing with unique character.
+            </p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-8 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn active px-4 py-2 rounded-full border-2 border-primary text-sm font-medium" data-filter="all">
+                        All Items
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 text-sm font-medium hover:border-primary" data-filter="shirts">
+                        Shirts
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 text-sm font-medium hover:border-primary" data-filter="pants/shorts">
+                        Pants/Shorts
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 text-sm font-medium hover:border-primary" data-filter="hoodies/jackets">
+                        Hoodies/Jackets
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 text-sm font-medium hover:border-primary" data-filter="footwear">
+                        Footwear
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 text-sm font-medium hover:border-primary" data-filter="accessories">
+                        Accessories
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm text-gray-600">Sort by:</label>
+                    <select id="sort-select" class="px-4 py-2 border-2 border-gray-300 rounded-full text-sm focus:outline-none focus:border-accent">
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="py-16 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Loading State -->
+            <div id="loading-state" class="col-span-full text-center py-16">
+                <div class="inline-block w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-600">Loading products...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="col-span-full text-center py-16 hidden">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <p class="text-gray-600 mb-2">Unable to load products</p>
+                <p class="text-gray-500 text-sm">Please check back later or contact us directly.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="col-span-full text-center py-16 hidden">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                </svg>
+                <p class="text-gray-600 mb-2">No items available right now</p>
+                <p class="text-gray-500 text-sm">Check back soon for new listings!</p>
+            </div>
+
+            <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be loaded dynamically from Google Sheets -->
+            </div>
+
+            <!-- No Results State (for filtering) -->
+            <div id="no-results-state" class="col-span-full text-center py-16 hidden">
+                <p class="text-gray-600">No items match your filter. Try a different category.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consignment CTA -->
+    <section class="py-20 bg-primary">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-animate">
+            <h2 class="font-display text-4xl text-white mb-6">Got Pieces to Sell?</h2>
+            <p class="text-xl text-gray-300 mb-10">
+                I'm always looking for quality items to add to the collection. Reach out with your vintage finds, designer pieces, or gently used clothing and I'll make you an offer.
+            </p>
+            <a href="contact.html" class="inline-block bg-accent text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+                Contact Us About Consignment
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <a href="index.html" class="flex items-center space-x-2 mb-6">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                            <span class="font-display text-primary text-xl font-bold">JB</span>
+                        </div>
+                        <span class="font-display text-2xl text-white">JayyBl3nz</span>
+                    </a>
+                    <p class="text-gray-400">
+                        Premium barbering meets curated fashion. Your destination for style.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-display text-lg text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-accent transition-colors">Home</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-accent transition-colors">Gallery</a></li>
+                        <li><a href="shop.html" class="text-gray-400 hover:text-accent transition-colors">Shop</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-accent transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-accent transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-display text-lg text-white mb-6">Connect</h4>
+                    <div class="flex space-x-4 mb-6">
+                        <a href="https://instagram.com/jmath3w09" target="_blank" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-gray-400 hover:text-accent hover:bg-accent/10 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://tiktok.com/@jayyyblends" target="_blank" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-gray-400 hover:text-accent hover:bg-accent/10 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm"><a href="mailto:joelw!@gmail.com" class="hover:text-accent transition-colors">joelw!@gmail.com</a></p>
+                    <p class="text-gray-400 text-sm"><a href="tel:+18329552305" class="hover:text-accent transition-colors">+1 (832) 955-2305</a></p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2024 JayyBl3nz. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+
+    const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/hjbu59w1mmpjn';
+
+    // Store all products for filtering/sorting
+    let allProducts = [];
+
+    // Create product card HTML
+    function createProductCard(product) {
+        const productName = product['Product Name'] || product['product name'] || 'Unnamed Product';
+        const price = parseFloat(product['Price'] || product['price'] || 0);
+        const size = product['Size(s)'] || product['size(s)'] || product['Size'] || product['size'] || 'One Size';
+        const category = (product['Category'] || product['category'] || 'other').toLowerCase();
+        const imageUrl = product['Image URL'] || product['image url'] || '';
+
+        // Show image if available, otherwise show placeholder
+        const imageContent = imageUrl
+            ? `<img src="${imageUrl}" alt="${productName}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-gray-300\\'><span class=\\'text-gray-500\\'>Image Not Available</span></div>'">`
+            : `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+               </div>`;
+
+        // Format category for display (capitalize properly)
+        const displayCategory = category.split('/').map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join('/');
+
+        return `
+            <div class="product-card card-hover bg-white rounded-2xl overflow-hidden scroll-animate visible" data-category="${category}" data-price="${price}">
+                <div class="product-image aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative">
+                    ${imageContent}
+                    <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-3 py-1 rounded-full">
+                        ${displayCategory}
+                    </span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-display text-lg text-primary mb-2">${productName}</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm text-gray-600">Size: <span class="font-semibold">${size}</span></span>
+                        <span class="text-accent font-bold text-xl">$${price}</span>
+                    </div>
+                    <a href="contact.html?product=${encodeURIComponent(productName)}" class="block w-full bg-primary text-white py-3 rounded-full font-medium hover:bg-secondary transition-colors text-center">
+                        Inquire
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    // Render products to the grid
+    function renderProducts(products) {
+        const grid = document.getElementById('product-grid');
+        const noResults = document.getElementById('no-results-state');
+
+        if (products.length === 0) {
+            grid.innerHTML = '';
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+            grid.innerHTML = products.map(createProductCard).join('');
+        }
+    }
+
+    // Filter products by category
+    function filterProducts(category) {
+        if (category === 'all') {
+            return [...allProducts];
+        }
+        return allProducts.filter(p => {
+            const productCategory = (p['Category'] || p['category'] || '').toLowerCase();
+            // Match exact category (handles categories with slashes like "pants/shorts")
+            return productCategory === category;
+        });
+    }
+
+    // Sort products
+    function sortProducts(products, sortBy) {
+        const sorted = [...products];
+        switch (sortBy) {
+            case 'price-low':
+                sorted.sort((a, b) => {
+                    const priceA = parseFloat(a['Price'] || a['price'] || 0);
+                    const priceB = parseFloat(b['Price'] || b['price'] || 0);
+                    return priceA - priceB;
+                });
+                break;
+            case 'price-high':
+                sorted.sort((a, b) => {
+                    const priceA = parseFloat(a['Price'] || a['price'] || 0);
+                    const priceB = parseFloat(b['Price'] || b['price'] || 0);
+                    return priceB - priceA;
+                });
+                break;
+            case 'newest':
+            default:
+                // Keep original order (newest items should be at top of sheet)
+                break;
+        }
+        return sorted;
+    }
+
+    // Load products from SheetDB
+    async function loadProducts() {
+        const loadingState = document.getElementById('loading-state');
+        const errorState = document.getElementById('error-state');
+        const emptyState = document.getElementById('empty-state');
+        const productGrid = document.getElementById('product-grid');
+
+        // Check if URL is configured
+        if (SHEETDB_API_URL === 'YOUR_SHEETDB_API_URL_HERE') {
+            loadingState.classList.add('hidden');
+            errorState.classList.remove('hidden');
+            const errorText = errorState.querySelector('p');
+            if (errorText) {
+                errorText.textContent = 'Shop not configured yet. See setup instructions in the code.';
+            }
+            console.log('='.repeat(60));
+            console.log('SHEETDB SETUP REQUIRED');
+            console.log('='.repeat(60));
+            console.log('Please follow the setup instructions in shop.html');
+            console.log('Look for the comment block at the top of the <script> section');
+            console.log('='.repeat(60));
+            return;
+        }
+
+        try {
+            // Fetch all products from the sheet
+            const response = await fetch(SHEETDB_API_URL);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Filter out any empty rows (rows where Product Name is empty)
+            allProducts = data.filter(product => {
+                const name = product['Product Name'] || product['product name'] || '';
+                return name.trim() !== '';
+            });
+
+            loadingState.classList.add('hidden');
+
+            if (allProducts.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                renderProducts(allProducts);
+                setupFiltersAndSort();
+            }
+        } catch (error) {
+            console.error('Error loading products:', error);
+            loadingState.classList.add('hidden');
+            errorState.classList.remove('hidden');
+
+            // More helpful error message
+            console.log('='.repeat(60));
+            console.log('TROUBLESHOOTING TIPS:');
+            console.log('1. Make sure you shared your Google Sheet with SheetDB');
+            console.log('2. Check that your SheetDB API URL is correct');
+            console.log('3. Verify your Google Sheet has the correct column headers');
+            console.log('   Required: Product Name, Price, Size(s), Category');
+            console.log('='.repeat(60));
+        }
+    }
+
+    // Setup filter and sort functionality
+    function setupFiltersAndSort() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const sortSelect = document.getElementById('sort-select');
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                currentFilter = btn.dataset.filter;
+                const filtered = filterProducts(currentFilter);
+                const sorted = sortProducts(filtered, currentSort);
+                renderProducts(sorted);
+            });
+        });
+
+        sortSelect.addEventListener('change', () => {
+            currentSort = sortSelect.value;
+            const filtered = filterProducts(currentFilter);
+            const sorted = sortProducts(filtered, currentSort);
+            renderProducts(sorted);
+        });
+    }
+
+    // Auto-refresh products every 5 minutes (optional - remove if not needed)
+    function setupAutoRefresh() {
+        // Refresh every 5 minutes (300000 ms)
+        setInterval(() => {
+            console.log('Auto-refreshing product data...');
+            loadProducts();
+        }, 300000);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProducts();
+        setupAutoRefresh();
+    });
+    </script>
+</body>
+</html>
