@@ -13,12 +13,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1a1a2e',
-                        secondary: '#16213e',
-                        accent: '#c9a227',
-                        gold: '#d4af37',
-                        cream: '#f5f5dc',
-                        charcoal: '#36454f',
+                        primary: '#1e3a5f',
+                        secondary: '#152238',
+                        accent: '#dc2626',
+                        red: '#b91c1c',
+                        cream: '#f8fafc',
+                        charcoal: '#374151',
                     },
                     fontFamily: {
                         display: ['Playfair Display', 'serif'],
@@ -67,6 +67,27 @@
             transform: translateX(0);
         }
 
+        /* Barber Pole Stripe */
+        .barber-stripe {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                #dc2626 0px,
+                #dc2626 30px,
+                #ffffff 30px,
+                #ffffff 60px,
+                #60a5fa 60px,
+                #60a5fa 90px
+            );
+            background-size: 90px 100%;
+            animation: barber-scroll 3s linear infinite;
+        }
+
+        @keyframes barber-scroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 90px 0; }
+        }
+
         .gold-underline {
             position: relative;
         }
@@ -78,7 +99,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #c9a227;
+            background: #dc2626;
             transition: width 0.3s ease;
         }
 
@@ -108,8 +129,8 @@
         }
 
         .filter-btn.active {
-            background-color: #c9a227;
-            color: #1a1a2e;
+            background-color: #dc2626;
+            color: white;
         }
 
         /* Category badge */
@@ -124,8 +145,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center space-x-2">
-                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                        <span class="font-display text-primary text-xl font-bold">JB</span>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="font-display text-accent text-xl font-bold">JB</span>
                     </div>
                     <span class="font-display text-2xl text-white">JayyBl3nz</span>
                 </a>
@@ -163,6 +184,9 @@
             </div>
         </div>
     </nav>
+
+    <!-- Barber Pole Stripe -->
+    <div class="barber-stripe fixed top-20 left-0 right-0 z-40"></div>
 
     <!-- Page Header -->
     <section class="pt-32 pb-20 bg-gradient-to-br from-primary via-secondary to-charcoal">
@@ -257,7 +281,7 @@
             <p class="text-xl text-gray-300 mb-10">
                 I'm always looking for quality items to add to the collection. Reach out with your vintage finds, designer pieces, or gently used clothing and I'll make you an offer.
             </p>
-            <a href="contact.html" class="inline-block bg-accent text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+            <a href="contact.html" class="inline-block bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-red transition-all hover:scale-105">
                 Contact Us About Consignment
             </a>
         </div>

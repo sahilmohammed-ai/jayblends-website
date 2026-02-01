@@ -13,12 +13,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1a1a2e',
-                        secondary: '#16213e',
-                        accent: '#c9a227',
-                        gold: '#d4af37',
-                        cream: '#f5f5dc',
-                        charcoal: '#36454f',
+                        primary: '#1e3a5f',
+                        secondary: '#152238',
+                        accent: '#dc2626',
+                        red: '#b91c1c',
+                        lightRed: '#f87171',
+                        cream: '#f8fafc',
+                        charcoal: '#374151',
                     },
                     fontFamily: {
                         display: ['Playfair Display', 'serif'],
@@ -58,6 +59,27 @@
             transform: translateX(0);
         }
 
+        /* Barber Pole Stripe */
+        .barber-stripe {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                #dc2626 0px,
+                #dc2626 30px,
+                #ffffff 30px,
+                #ffffff 60px,
+                #60a5fa 60px,
+                #60a5fa 90px
+            );
+            background-size: 90px 100%;
+            animation: barber-scroll 3s linear infinite;
+        }
+
+        @keyframes barber-scroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 90px 0; }
+        }
+
         .gold-underline {
             position: relative;
         }
@@ -69,7 +91,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #c9a227;
+            background: #dc2626;
             transition: width 0.3s ease;
         }
 
@@ -95,8 +117,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center space-x-2">
-                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                        <span class="font-display text-primary text-xl font-bold">JB</span>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="font-display text-accent text-xl font-bold">JB</span>
                     </div>
                     <span class="font-display text-2xl text-white">JayyBl3nz</span>
                 </a>
@@ -135,6 +157,9 @@
         </div>
     </nav>
 
+    <!-- Barber Pole Stripe -->
+    <div class="barber-stripe fixed top-20 left-0 right-0 z-40"></div>
+
     <!-- Page Header -->
     <section class="pt-32 pb-20 bg-gradient-to-br from-primary via-secondary to-charcoal">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -157,7 +182,7 @@
                             <span class="text-gray-500">Joel's Photo</span>
                         </div>
                         <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-accent rounded-2xl flex items-center justify-center">
-                            <div class="text-center text-primary">
+                            <div class="text-center text-white">
                                 <span class="block font-display text-3xl font-bold">2+</span>
                                 <span class="text-sm font-medium">Years</span>
                             </div>
@@ -203,8 +228,8 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="skill-card bg-white rounded-2xl p-8 text-center scroll-animate">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path>
                         </svg>
                     </div>
@@ -215,8 +240,8 @@
                 </div>
 
                 <div class="skill-card bg-white rounded-2xl p-8 text-center scroll-animate animation-delay-200">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                         </svg>
                     </div>
@@ -227,8 +252,8 @@
                 </div>
 
                 <div class="skill-card bg-white rounded-2xl p-8 text-center scroll-animate animation-delay-400">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -253,7 +278,7 @@
                 <p class="text-lg text-gray-400 mb-10">
                     I work by appointment only to ensure every client gets my undivided attention. No waiting in line, no rushed cuts, no distractions. Just great conversation and an even better haircut.
                 </p>
-                <a href="contact.html" class="inline-block bg-accent text-primary px-10 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+                <a href="contact.html" class="inline-block bg-accent text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-red transition-all hover:scale-105">
                     Contact Me
                 </a>
             </div>

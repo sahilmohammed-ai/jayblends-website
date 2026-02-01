@@ -342,6 +342,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====================================
     // Console Welcome Message
     // ====================================
-    console.log('%c JayBlends ', 'background: #1a1a2e; color: #c9a227; font-size: 24px; font-weight: bold; padding: 10px 20px;');
-    console.log('%c Fresh Cuts. Fresh Style. ', 'color: #36454f; font-size: 14px;');
+    console.log('%c JayyBl3nz ', 'background: #1e3a5f; color: #dc2626; font-size: 24px; font-weight: bold; padding: 10px 20px;');
+    console.log('%c Fresh Cuts. Fresh Style. ', 'color: #374151; font-size: 14px;');
 });

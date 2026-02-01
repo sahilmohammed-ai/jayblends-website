@@ -13,12 +13,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1a1a2e',
-                        secondary: '#16213e',
-                        accent: '#c9a227',
-                        gold: '#d4af37',
-                        cream: '#f5f5dc',
-                        charcoal: '#36454f',
+                        primary: '#1e3a5f',
+                        secondary: '#152238',
+                        accent: '#dc2626',
+                        red: '#b91c1c',
+                        lightRed: '#f87171',
+                        cream: '#f8fafc',
+                        charcoal: '#374151',
                     },
                     fontFamily: {
                         display: ['Playfair Display', 'serif'],
@@ -75,7 +76,28 @@
         }
 
         .hero-gradient {
-            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(21, 34, 56, 0.85) 100%);
+        }
+
+        /* Barber Pole Stripe */
+        .barber-stripe {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                #dc2626 0px,
+                #dc2626 30px,
+                #ffffff 30px,
+                #ffffff 60px,
+                #60a5fa 60px,
+                #60a5fa 90px
+            );
+            background-size: 90px 100%;
+            animation: barber-scroll 3s linear infinite;
+        }
+
+        @keyframes barber-scroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 90px 0; }
         }
 
         .gold-underline {
@@ -89,7 +111,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #c9a227;
+            background: #dc2626;
             transition: width 0.3s ease;
         }
 
@@ -106,8 +128,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex items-center space-x-2">
-                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                        <span class="font-display text-primary text-xl font-bold">JB</span>
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="font-display text-accent text-xl font-bold">JB</span>
                     </div>
                     <span class="font-display text-2xl text-white">JayyBl3nz</span>
                 </a>
@@ -146,6 +168,9 @@
         </div>
     </nav>
 
+    <!-- Barber Pole Stripe -->
+    <div class="barber-stripe fixed top-20 left-0 right-0 z-40"></div>
+
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-charcoal">
@@ -153,7 +178,7 @@
                 <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <defs>
                         <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(201, 162, 39, 0.3)" stroke-width="0.5"/>
+                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(220, 38, 38, 0.3)" stroke-width="0.5"/>
                         </pattern>
                     </defs>
                     <rect width="100" height="100" fill="url(#grid)"/>
@@ -172,7 +197,7 @@
                 Premium barbering meets curated vintage fashion. Experience the art of looking good at JayyBl3nz.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fadeInUp animation-delay-400">
-                <a href="services.html" class="bg-accent text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+                <a href="services.html" class="bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-red transition-all hover:scale-105">
                     View My Work
                 </a>
                 <a href="shop.html" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-primary transition-all">
@@ -182,7 +207,7 @@
         </div>
 
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
         </div>
@@ -201,8 +226,8 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card-hover bg-cream rounded-2xl p-8 text-center scroll-animate">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path>
                         </svg>
                     </div>
@@ -211,8 +236,8 @@
                 </div>
 
                 <div class="card-hover bg-cream rounded-2xl p-8 text-center scroll-animate animation-delay-200">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                         </svg>
                     </div>
@@ -221,8 +246,8 @@
                 </div>
 
                 <div class="card-hover bg-cream rounded-2xl p-8 text-center scroll-animate animation-delay-400">
-                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-lightRed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
                         </svg>
                     </div>
@@ -265,7 +290,7 @@
                         <p class="text-gray-400 text-sm mb-3">Size: M | Excellent Condition</p>
                         <div class="flex justify-between items-center">
                             <span class="text-accent font-bold text-xl">$65</span>
-                            <button class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gold transition-colors">
+                            <button class="bg-accent text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red transition-colors">
                                 View
                             </button>
                         </div>
@@ -283,7 +308,7 @@
                         <p class="text-gray-400 text-sm mb-3">Size: L | Like New</p>
                         <div class="flex justify-between items-center">
                             <span class="text-accent font-bold text-xl">$28</span>
-                            <button class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gold transition-colors">
+                            <button class="bg-accent text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red transition-colors">
                                 View
                             </button>
                         </div>
@@ -301,7 +326,7 @@
                         <p class="text-gray-400 text-sm mb-3">Size: 10 | Great Condition</p>
                         <div class="flex justify-between items-center">
                             <span class="text-accent font-bold text-xl">$120</span>
-                            <button class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gold transition-colors">
+                            <button class="bg-accent text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red transition-colors">
                                 View
                             </button>
                         </div>
@@ -319,7 +344,7 @@
                         <p class="text-gray-400 text-sm mb-3">Size: L | Mint Condition</p>
                         <div class="flex justify-between items-center">
                             <span class="text-accent font-bold text-xl">$95</span>
-                            <button class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gold transition-colors">
+                            <button class="bg-accent text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-red transition-colors">
                                 View
                             </button>
                         </div>
@@ -328,76 +353,12 @@
             </div>
 
             <div class="text-center mt-12 scroll-animate">
-                <a href="shop.html" class="inline-flex items-center text-accent font-semibold hover:text-gold transition-colors">
+                <a href="shop.html" class="inline-flex items-center text-white font-semibold hover:text-gold transition-colors">
                     Shop All Items
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose JayyBl3nz -->
-    <section class="py-20 bg-cream">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="scroll-animate">
-                    <h2 class="font-display text-4xl md:text-5xl text-primary mb-6">
-                        Why <span class="text-accent">JayyBl3nz?</span>
-                    </h2>
-                    <p class="text-lg text-gray-600 mb-8">
-                        JayyBl3nz is more than just a barbershop. It's a destination for those who appreciate quality craftsmanship in both grooming and fashion. I combine expert barbering with carefully curated clothing to create a one-stop shop for your style needs.
-                    </p>
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-4">
-                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-display text-xl text-primary mb-2">Personal Attention</h3>
-                                <p class="text-gray-600">Every client gets my full focus. No rushing, no distractions.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-4">
-                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-display text-xl text-primary mb-2">Curated Fashion</h3>
-                                <p class="text-gray-600">Hand-picked vintage and contemporary pieces you won't find anywhere else.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-4">
-                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-display text-xl text-primary mb-2">Private Setting</h3>
-                                <p class="text-gray-600">Comfortable, relaxed atmosphere with attention to every detail.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="scroll-animate animation-delay-200">
-                    <div class="relative">
-                        <div class="aspect-square bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center">
-                            <span class="text-gray-500">Joel's Photo</span>
-                        </div>
-                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-accent rounded-2xl flex items-center justify-center">
-                            <div class="text-center text-primary">
-                                <span class="block font-display text-3xl font-bold">5+</span>
-                                <span class="text-sm font-medium">Years</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -411,10 +372,10 @@
                     Reach out to schedule your appointment. I work by appointment only to ensure every client gets personalized attention.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="contact.html" class="bg-accent text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-gold transition-all hover:scale-105">
+                    <a href="contact.html" class="bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-red transition-all hover:scale-105">
                         Contact Me
                     </a>
-                    <a href="services.html" class="border-2 border-accent text-accent px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent hover:text-primary transition-all">
+                    <a href="services.html" class="border-2 border-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent hover:text-primary transition-all">
                         View Gallery
                     </a>
                 </div>
