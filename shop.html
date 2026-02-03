@@ -351,8 +351,16 @@
 
     // Create product card HTML
     function createProductCard(product) {
+        // Debug: log product keys to see exact column names from sheet
+        console.log('Product data:', product);
+
         const productName = product['Product Name'] || product['product name'] || 'Unnamed Product';
-        const price = parseFloat(product['Price'] || product['price'] || 0);
+
+        // Get price - try multiple column name variations and clean the value
+        let priceRaw = product['Price'] || product['Price '] || product['price'] || product['PRICE'] || '';
+        // Remove $ signs, commas, and whitespace, then parse
+        let price = parseFloat(String(priceRaw).replace(/[$,\s]/g, '')) || 0;
+
         const size = product['Size(s)'] || product['size(s)'] || product['Size'] || product['size'] || 'One Size';
         const category = (product['Category'] || product['category'] || 'other').toLowerCase();
         const imageUrl = product['Image URL'] || product['image url'] || '';
