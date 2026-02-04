@@ -344,17 +344,17 @@
     <script src="main.js"></script>
     <script>
 
-    // GOOGLE SHEETS SETUP (FREE - No usage limits!)
-    // 1. Open your Google Sheet
-    // 2. Go to File → Share → Publish to web
-    // 3. Select your sheet tab, change "Web page" to "CSV"
-    // 4. Click Publish and paste the link below
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTO2jWvXPAdUD9AnJGrM4Oeb-bDViM1BHuYe3k7RDUEceRjLoT0zfEomk4e7LLfa8bM4CwxqnIV3TTf/pub?gid=0&single=true&output=csv';
 
     // Your sheet should have these columns: Product Name, Price, Size(s), Category, Image URL
 
     // Store all products for filtering/sorting
     let allProducts = [];
+
+    // Cache products to handle Google Sheets inconsistent caching
+    // Products only get removed after being missing for multiple refreshes
+    let productCache = {};
+    const REMOVAL_THRESHOLD = 5; // Must be missing 5 times before removal
 
     // Track current filter and sort state globally (preserved on refresh)
     let currentFilter = 'all';
@@ -546,16 +546,44 @@
             const data = parseCSV(csvText);
 
             // Filter out any empty rows (rows where Product Name is empty)
-            const newProducts = data.filter(product => {
+            const fetchedProducts = data.filter(product => {
                 const name = product['Product Name'] || product['product name'] || '';
                 return name.trim() !== '';
             });
 
+            // Build set of product names from this fetch
+            const fetchedNames = new Set(fetchedProducts.map(p =>
+                (p['Product Name'] || p['product name'] || '').trim().toLowerCase()
+            ));
+
+            // Add/update products in cache
+            fetchedProducts.forEach(product => {
+                const name = (product['Product Name'] || product['product name'] || '').trim().toLowerCase();
+                productCache[name] = { product, missingCount: 0 };
+            });
+
+            // Increment missing count for products not in this fetch
+            Object.keys(productCache).forEach(name => {
+                if (!fetchedNames.has(name)) {
+                    productCache[name].missingCount++;
+                }
+            });
+
+            // Remove products that have been missing for too long
+            Object.keys(productCache).forEach(name => {
+                if (productCache[name].missingCount >= REMOVAL_THRESHOLD) {
+                    delete productCache[name];
+                }
+            });
+
+            // Build allProducts from cache
+            const cachedProducts = Object.values(productCache).map(entry => entry.product);
+
             loadingState.classList.add('hidden');
 
             // Only re-render if data actually changed
-            const hasChanged = JSON.stringify(newProducts) !== JSON.stringify(allProducts);
-            allProducts = newProducts;
+            const hasChanged = JSON.stringify(cachedProducts) !== JSON.stringify(allProducts);
+            allProducts = cachedProducts;
 
             if (allProducts.length === 0) {
                 emptyState.classList.remove('hidden');
