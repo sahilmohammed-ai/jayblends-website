@@ -344,10 +344,59 @@
     <script src="main.js"></script>
     <script>
 
-    const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/hjbu59w1mmpjn';
+    // GOOGLE SHEETS SETUP (FREE - No usage limits!)
+    // 1. Open your Google Sheet
+    // 2. Go to File → Share → Publish to web
+    // 3. Select your sheet tab, change "Web page" to "CSV"
+    // 4. Click Publish and paste the link below
+    const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTO2jWvXPAdUD9AnJGrM4Oeb-bDViM1BHuYe3k7RDUEceRjLoT0zfEomk4e7LLfa8bM4CwxqnIV3TTf/pub?gid=0&single=true&output=csv';
+
+    // Your sheet should have these columns: Product Name, Price, Size(s), Category, Image URL
 
     // Store all products for filtering/sorting
     let allProducts = [];
+
+    // Parse CSV text into array of objects
+    function parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        if (lines.length < 2) return [];
+
+        // Parse header row
+        const headers = parseCSVLine(lines[0]);
+
+        // Parse data rows
+        const products = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseCSVLine(lines[i]);
+            const product = {};
+            headers.forEach((header, index) => {
+                product[header.trim()] = values[index] ? values[index].trim() : '';
+            });
+            products.push(product);
+        }
+        return products;
+    }
+
+    // Parse a single CSV line (handles quoted values with commas)
+    function parseCSVLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                result.push(current);
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        result.push(current);
+        return result;
+    }
 
     // Create product card HTML
     function createProductCard(product) {
@@ -453,7 +502,7 @@
         return sorted;
     }
 
-    // Load products from SheetDB
+    // Load products from Google Sheets CSV
     async function loadProducts() {
         const loadingState = document.getElementById('loading-state');
         const errorState = document.getElementById('error-state');
@@ -461,7 +510,7 @@
         const productGrid = document.getElementById('product-grid');
 
         // Check if URL is configured
-        if (SHEETDB_API_URL === 'YOUR_SHEETDB_API_URL_HERE') {
+        if (GOOGLE_SHEET_CSV_URL.includes('Example')) {
             loadingState.classList.add('hidden');
             errorState.classList.remove('hidden');
             const errorText = errorState.querySelector('p');
@@ -469,23 +518,26 @@
                 errorText.textContent = 'Shop not configured yet. See setup instructions in the code.';
             }
             console.log('='.repeat(60));
-            console.log('SHEETDB SETUP REQUIRED');
+            console.log('GOOGLE SHEETS SETUP REQUIRED');
             console.log('='.repeat(60));
-            console.log('Please follow the setup instructions in shop.html');
-            console.log('Look for the comment block at the top of the <script> section');
+            console.log('1. Open your Google Sheet');
+            console.log('2. Go to File → Share → Publish to web');
+            console.log('3. Select your sheet, change format to CSV');
+            console.log('4. Copy the link and paste it in shop.html');
             console.log('='.repeat(60));
             return;
         }
 
         try {
-            // Fetch all products from the sheet
-            const response = await fetch(SHEETDB_API_URL);
+            // Fetch CSV from Google Sheets
+            const response = await fetch(GOOGLE_SHEET_CSV_URL);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json();
+            const csvText = await response.text();
+            const data = parseCSV(csvText);
 
             // Filter out any empty rows (rows where Product Name is empty)
             allProducts = data.filter(product => {
@@ -509,10 +561,10 @@
             // More helpful error message
             console.log('='.repeat(60));
             console.log('TROUBLESHOOTING TIPS:');
-            console.log('1. Make sure you shared your Google Sheet with SheetDB');
-            console.log('2. Check that your SheetDB API URL is correct');
+            console.log('1. Make sure you published your Google Sheet to the web');
+            console.log('2. Check that you selected CSV format');
             console.log('3. Verify your Google Sheet has the correct column headers');
-            console.log('   Required: Product Name, Price, Size(s), Category');
+            console.log('   Required: Product Name, Price, Size(s), Category, Image URL');
             console.log('='.repeat(60));
         }
     }
@@ -545,13 +597,11 @@
         });
     }
 
-    // Auto-refresh products every 5 minutes (optional - remove if not needed)
+    // Auto-refresh products every 5 seconds
     function setupAutoRefresh() {
-        // Refresh every 5 minutes (300000 ms)
         setInterval(() => {
-            console.log('Auto-refreshing product data...');
             loadProducts();
-        }, 300000);
+        }, 5000);
     }
 
     // Initialize on page load
