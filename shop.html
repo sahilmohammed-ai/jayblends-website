@@ -356,6 +356,11 @@
     // Store all products for filtering/sorting
     let allProducts = [];
 
+    // Track current filter and sort state globally (preserved on refresh)
+    let currentFilter = 'all';
+    let currentSort = 'newest';
+    let filtersInitialized = false;
+
     // Parse CSV text into array of objects
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
@@ -529,8 +534,9 @@
         }
 
         try {
-            // Fetch CSV from Google Sheets
-            const response = await fetch(GOOGLE_SHEET_CSV_URL);
+            // Fetch CSV from Google Sheets (with cache-busting)
+            const cacheBuster = `&_t=${Date.now()}`;
+            const response = await fetch(GOOGLE_SHEET_CSV_URL + cacheBuster);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -540,18 +546,24 @@
             const data = parseCSV(csvText);
 
             // Filter out any empty rows (rows where Product Name is empty)
-            allProducts = data.filter(product => {
+            const newProducts = data.filter(product => {
                 const name = product['Product Name'] || product['product name'] || '';
                 return name.trim() !== '';
             });
 
             loadingState.classList.add('hidden');
 
+            // Only re-render if data actually changed
+            const hasChanged = JSON.stringify(newProducts) !== JSON.stringify(allProducts);
+            allProducts = newProducts;
+
             if (allProducts.length === 0) {
                 emptyState.classList.remove('hidden');
             } else {
-                renderProducts(allProducts);
                 setupFiltersAndSort();
+                if (hasChanged) {
+                    applyFilterAndSort();  // Only re-render when data changes
+                }
             }
         } catch (error) {
             console.error('Error loading products:', error);
@@ -569,12 +581,13 @@
         }
     }
 
-    // Setup filter and sort functionality
+    // Setup filter and sort functionality (only adds listeners once)
     function setupFiltersAndSort() {
+        if (filtersInitialized) return;
+        filtersInitialized = true;
+
         const filterBtns = document.querySelectorAll('.filter-btn');
         const sortSelect = document.getElementById('sort-select');
-        let currentFilter = 'all';
-        let currentSort = 'newest';
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -583,18 +596,21 @@
                 btn.classList.add('active');
 
                 currentFilter = btn.dataset.filter;
-                const filtered = filterProducts(currentFilter);
-                const sorted = sortProducts(filtered, currentSort);
-                renderProducts(sorted);
+                applyFilterAndSort();
             });
         });
 
         sortSelect.addEventListener('change', () => {
             currentSort = sortSelect.value;
-            const filtered = filterProducts(currentFilter);
-            const sorted = sortProducts(filtered, currentSort);
-            renderProducts(sorted);
+            applyFilterAndSort();
         });
+    }
+
+    // Apply current filter and sort to products
+    function applyFilterAndSort() {
+        const filtered = filterProducts(currentFilter);
+        const sorted = sortProducts(filtered, currentSort);
+        renderProducts(sorted);
     }
 
     // Auto-refresh products every 5 seconds
