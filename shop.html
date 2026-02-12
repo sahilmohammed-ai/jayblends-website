@@ -346,7 +346,7 @@
 
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTO2jWvXPAdUD9AnJGrM4Oeb-bDViM1BHuYe3k7RDUEceRjLoT0zfEomk4e7LLfa8bM4CwxqnIV3TTf/pub?gid=0&single=true&output=csv';
 
-    // Your sheet should have these columns: Product Name, Price, Size(s), Category, Image URL
+    // Your sheet should have these columns: Product Name, Price, Size(s), Category, Image URL, Availability
 
     // Store all products for filtering/sorting
     let allProducts = [];
@@ -418,6 +418,16 @@
         const size = product['Size(s)'] || product['size(s)'] || product['Size'] || product['size'] || 'One Size';
         const category = (product['Category'] || product['category'] || 'other').toLowerCase();
         const imageUrl = product['Image URL'] || product['image url'] || '';
+        const availability = (product['Availability'] || product['availability'] || product['Availablility'] || product['availablility'] || 'In Stock').trim();
+
+        // Availability badge styles
+        const availabilityStyles = {
+            'In Stock':   'bg-green-100 text-green-700',
+            'Low Stock':  'bg-yellow-100 text-yellow-700',
+            'Sold Out':   'bg-red-100 text-red-500',
+        };
+        const availabilityClass = availabilityStyles[availability] || 'bg-gray-100 text-gray-600';
+        const isSoldOut = availability === 'Sold Out';
 
         // Show image if available, otherwise show placeholder
         const imageContent = imageUrl
@@ -434,7 +444,7 @@
         ).join('/');
 
         return `
-            <div class="product-card card-hover bg-white rounded-2xl overflow-hidden scroll-animate visible" data-category="${category}" data-price="${price}">
+            <div class="product-card card-hover bg-white rounded-2xl overflow-hidden scroll-animate visible ${isSoldOut ? 'opacity-60' : ''}" data-category="${category}" data-price="${price}">
                 <div class="product-image aspect-square bg-gradient-to-br from-gray-200 to-gray-300 relative">
                     ${imageContent}
                     <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-3 py-1 rounded-full">
@@ -443,12 +453,15 @@
                 </div>
                 <div class="p-5">
                     <h3 class="font-display text-lg text-primary mb-2">${productName}</h3>
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-3">
                         <span class="text-sm text-gray-600">Size: <span class="font-semibold">${size}</span></span>
                         <span class="text-accent font-bold text-xl">$${price}</span>
                     </div>
-                    <a href="contact.html?product=${encodeURIComponent(productName)}" class="block w-full bg-primary text-white py-3 rounded-full font-medium hover:bg-secondary transition-colors text-center">
-                        Inquire
+                    <div class="mb-4">
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full ${availabilityClass}">${availability}</span>
+                    </div>
+                    <a href="contact.html?product=${encodeURIComponent(productName)}" class="block w-full ${isSoldOut ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary hover:bg-secondary'} text-white py-3 rounded-full font-medium transition-colors text-center" ${isSoldOut ? 'onclick="return false"' : ''}>
+                        ${isSoldOut ? 'Sold Out' : 'Contact'}
                     </a>
                 </div>
             </div>
