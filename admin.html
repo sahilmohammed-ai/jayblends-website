@@ -246,9 +246,18 @@
     async function loadAppointments() {
         if (window.db) {
             try {
-                const snapshot = await window.db.collection('appointments').orderBy('createdAt', 'desc').get();
+                const snapshot = await window.db.collection('appointments').get();
                 appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } catch (e) { appointments = []; }
+                // Sort client-side newest first
+                appointments.sort((a, b) => {
+                    const ta = a.createdAt?.toDate?.() || new Date(a.createdAt || 0);
+                    const tb = b.createdAt?.toDate?.() || new Date(b.createdAt || 0);
+                    return tb - ta;
+                });
+            } catch (e) {
+                console.error('Failed to load appointments:', e);
+                appointments = [];
+            }
         } else {
             appointments = JSON.parse(localStorage.getItem('jb_appointments') || '[]');
         }
