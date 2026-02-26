@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment | JayyBl3nz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a5f', secondary: '#152238', accent: '#dc2626',
+                        red: '#b91c1c', cream: '#f8fafc', charcoal: '#374151',
+                    },
+                    fontFamily: { display: ['Playfair Display', 'serif'], body: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .scroll-animate { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .scroll-animate.visible { opacity: 1; transform: translateY(0); }
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        .mobile-menu.active { transform: translateX(0); }
+        .barber-stripe { height: 6px; background: repeating-linear-gradient(90deg, #dc2626 0px, #dc2626 30px, #ffffff 30px, #ffffff 60px, #60a5fa 60px, #60a5fa 90px); background-size: 90px 100%; animation: barber-scroll 3s linear infinite; }
+        @keyframes barber-scroll { 0% { background-position: 0 0; } 100% { background-position: 90px 0; } }
+        .gold-underline { position: relative; }
+        .gold-underline::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #dc2626; transition: width 0.3s ease; }
+        .gold-underline:hover::after { width: 100%; }
+        html { scroll-behavior: smooth; }
+        .form-input:focus { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); outline: none; }
+        .pricing-card { transition: all 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body class="font-body bg-cream text-charcoal">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-primary/95 backdrop-blur-sm shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="font-display text-accent text-xl font-bold">JB</span>
+                    </div>
+                    <span class="font-display text-2xl text-white">JayyBl3nz</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors gold-underline">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors gold-underline">Gallery</a>
+                    <a href="shop.html" class="text-white hover:text-accent transition-colors gold-underline">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors gold-underline">About</a>
+                    <a href="booking.html" class="text-accent font-medium gold-underline">Book Now</a>
+                    <a href="contact.html" class="text-white hover:text-accent transition-colors gold-underline">Contact</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl md:hidden">
+            <div class="p-6">
+                <button id="close-menu" class="text-white mb-8">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div class="flex flex-col space-y-6">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors text-lg">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors text-lg">Gallery</a>
+                    <a href="shop.html" class="text-white hover:text-accent transition-colors text-lg">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors text-lg">About</a>
+                    <a href="booking.html" class="text-accent font-medium text-lg">Book Now</a>
+                    <a href="contact.html" class="text-white hover:text-accent transition-colors text-lg">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Barber Pole Stripe -->
+    <div class="barber-stripe fixed top-20 left-0 right-0 z-40"></div>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary via-secondary to-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-display text-5xl md:text-6xl text-white mb-6 animate-fadeInUp">
+                Book an <span class="text-accent">Appointment</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeInUp animation-delay-200">
+                Available Friday – Sunday. All bookings require approval — Joel will reach out to confirm.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 scroll-animate">
+                <h2 class="font-display text-4xl text-primary mb-4">Services & Pricing</h2>
+                <div class="w-24 h-1 bg-accent mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="pricing-card bg-white rounded-2xl p-8 text-center border-2 border-gray-200 hover:border-accent shadow-sm scroll-animate">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-primary mb-2">Haircut</h3>
+                    <p class="text-gray-500 text-sm mb-4">~30 minutes</p>
+                    <div class="text-4xl font-bold text-accent mb-2">$15</div>
+                    <p class="text-gray-500 text-sm">Friday & Saturday</p>
+                </div>
+                <div class="pricing-card bg-primary rounded-2xl p-8 text-center scroll-animate animation-delay-200 relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-accent text-white text-xs px-2 py-1 rounded-full font-semibold">Popular</div>
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-white mb-2">Haircut + Beard</h3>
+                    <p class="text-gray-300 text-sm mb-4">~45 minutes</p>
+                    <div class="text-4xl font-bold text-accent mb-2">$20</div>
+                    <p class="text-gray-300 text-sm">Friday & Saturday</p>
+                </div>
+                <div class="pricing-card bg-accent rounded-2xl p-8 text-center scroll-animate animation-delay-400">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl text-white mb-2">Sunday Rush</h3>
+                    <p class="text-white/80 text-sm mb-4">Any service</p>
+                    <div class="text-4xl font-bold text-white mb-2">$25</div>
+                    <p class="text-white/80 text-sm">All services on Sunday</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="py-12 bg-cream">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 scroll-animate">
+                <h2 class="font-display text-3xl text-primary mb-3">Weekly Hours</h2>
+                <div class="w-16 h-1 bg-accent mx-auto"></div>
+            </div>
+            <div id="schedule-display" class="bg-white rounded-2xl overflow-hidden shadow-sm scroll-animate"></div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 scroll-animate">
+                <h2 class="font-display text-4xl text-primary mb-4">Request an Appointment</h2>
+                <div class="w-24 h-1 bg-accent mx-auto mb-4"></div>
+                <p class="text-gray-600">Joel will contact you via phone or Instagram to confirm.</p>
+            </div>
+
+            <form id="booking-form" class="space-y-5 scroll-animate">
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Service <span class="text-accent">*</span></label>
+                    <select id="service-select" required class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-charcoal focus:outline-none">
+                        <option value="">Select a service...</option>
+                        <option value="haircut">Haircut — $15 (Fri/Sat) · $25 (Sun)</option>
+                        <option value="haircut-beard">Haircut + Beard — $20 (Fri/Sat) · $25 (Sun)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Date <span class="text-accent">*</span></label>
+                    <input type="date" id="date-input" required class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-charcoal focus:outline-none" />
+                    <p id="date-message" class="mt-2 text-sm text-accent hidden"></p>
+                </div>
+
+                <div id="price-display" class="hidden bg-cream rounded-xl px-5 py-4 border-l-4 border-accent">
+                    <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Estimated Price</p>
+                    <p class="font-display text-3xl font-bold text-accent" id="price-value">$--</p>
+                    <p id="price-note" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Time Slot <span class="text-accent">*</span></label>
+                    <select id="time-select" required disabled class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-400 focus:outline-none">
+                        <option value="">Select a service and date first...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Full Name <span class="text-accent">*</span></label>
+                    <input type="text" id="name-input" required placeholder="Your full name" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Phone Number <span class="text-accent">*</span></label>
+                    <input type="tel" id="phone-input" required placeholder="(832) 555-0100" class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none" />
+                    <p id="phone-error" class="mt-1 text-xs text-accent hidden">Please enter a valid US phone number.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-charcoal mb-2">Instagram Handle <span class="text-gray-400 font-normal">(optional)</span></label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 select-none">@</span>
+                        <input type="text" id="instagram-input" placeholder="yourhandle" class="form-input w-full pl-8 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none" />
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full bg-accent text-white py-4 rounded-full font-semibold text-lg hover:bg-red transition-all hover:scale-[1.02] mt-2">
+                    Request Appointment
+                </button>
+            </form>
+
+            <div id="booking-success" class="hidden text-center py-10">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="font-display text-3xl text-primary mb-4">Request Submitted!</h3>
+                <p class="text-gray-600 max-w-sm mx-auto mb-8">Your appointment request has been received. Joel will reach out via phone or Instagram to confirm.</p>
+                <button onclick="resetBookingForm()" class="bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-secondary transition-colors">Book Another</button>
+            </div>
+
+            <div id="booking-error" class="hidden mt-4 bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm text-center"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                            <span class="font-display text-accent text-lg font-bold">JB</span>
+                        </div>
+                        <span class="font-display text-xl text-white">JayyBl3nz</span>
+                    </a>
+                    <p class="text-white text-sm mt-2">Fresh cuts. Fresh style.</p>
+                </div>
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="index.html" class="text-white hover:text-accent transition-colors text-sm">Home</a>
+                    <a href="services.html" class="text-white hover:text-accent transition-colors text-sm">Gallery</a>
+                    <a href="shop.html" class="text-white hover:text-accent transition-colors text-sm">Shop</a>
+                    <a href="about.html" class="text-white hover:text-accent transition-colors text-sm">About</a>
+                    <a href="booking.html" class="text-accent text-sm">Book Now</a>
+                    <a href="contact.html" class="text-white hover:text-accent transition-colors text-sm">Contact</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-white text-sm">&copy; 2024 JayyBl3nz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="main.js"></script>
+    <script>
+    const DEFAULT_SCHEDULE = {
+        monday:    { closed: true },
+        tuesday:   { closed: true },
+        wednesday: { closed: true },
+        thursday:  { closed: true },
+        friday:    { closed: false, open: '15:00', close: '21:00' },
+        saturday:  { closed: false, open: '07:00', close: '23:30' },
+        sunday:    { closed: false, open: '16:00', close: '20:00' }
+    };
+
+    const DAY_NAMES = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+
+    const SERVICE_CONFIG = {
+        'haircut':       { label: 'Haircut',        duration: 30, price: 15, sundayPrice: 25 },
+        'haircut-beard': { label: 'Haircut + Beard', duration: 45, price: 20, sundayPrice: 25 }
+    };
+
+    let schedule = JSON.parse(JSON.stringify(DEFAULT_SCHEDULE));
+    let blockedDates = [];
+
+    function timeToMins(t) {
+        const [h, m] = t.split(':').map(Number);
+        return h * 60 + m;
+    }
+
+    function minsTo12(mins) {
+        const h24 = Math.floor(mins / 60);
+        const m = mins % 60;
+        const ampm = h24 >= 12 ? 'PM' : 'AM';
+        const h12 = h24 > 12 ? h24 - 12 : (h24 === 0 ? 12 : h24);
+        return `${h12}:${m.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    function generateSlots(open, close, duration) {
+        const slots = [];
+        let cur = timeToMins(open);
+        const end = timeToMins(close);
+        while (cur + duration <= end) {
+            const hStr = Math.floor(cur / 60).toString().padStart(2, '0');
+            const mStr = (cur % 60).toString().padStart(2, '0');
+            slots.push({ value: `${hStr}:${mStr}`, label: minsTo12(cur) });
+            cur += 30;
+        }
+        return slots;
+    }
+
+    async function loadScheduleAndBlocked() {
+        if (window.db) {
+            try {
+                const [schedDoc, blockedDoc] = await Promise.all([
+                    window.db.collection('config').doc('schedule').get(),
+                    window.db.collection('config').doc('blocked').get()
+                ]);
+                if (schedDoc.exists) schedule = schedDoc.data();
+                if (blockedDoc.exists) blockedDates = blockedDoc.data().dates || [];
+            } catch (e) {}
+        } else {
+            const saved = localStorage.getItem('jb_schedule');
+            if (saved) schedule = JSON.parse(saved);
+            blockedDates = JSON.parse(localStorage.getItem('jb_blocked') || '[]');
+        }
+        renderSchedule();
+    }
+
+    function renderSchedule() {
+        const rows = [
+            { key: 'monday',    label: 'Monday' },
+            { key: 'tuesday',   label: 'Tuesday' },
+            { key: 'wednesday', label: 'Wednesday' },
+            { key: 'thursday',  label: 'Thursday' },
+            { key: 'friday',    label: 'Friday' },
+            { key: 'saturday',  label: 'Saturday' },
+            { key: 'sunday',    label: 'Sunday', rush: true }
+        ];
+        const el = document.getElementById('schedule-display');
+        el.innerHTML = rows.map((d, i) => {
+            const cfg = schedule[d.key] || { closed: true };
+            const border = i < rows.length - 1 ? 'border-b border-gray-100' : '';
+            return `<div class="flex items-center justify-between px-6 py-4 ${border}">
+                <div class="flex items-center gap-3">
+                    <span class="font-medium text-charcoal w-28">${d.label}</span>
+                    ${d.rush ? '<span class="text-xs bg-accent text-white px-2 py-0.5 rounded-full font-semibold">Rush Day</span>' : ''}
+                </div>
+                ${cfg.closed
+                    ? '<span class="text-gray-400 text-sm">Closed</span>'
+                    : `<span class="text-primary font-medium text-sm">${minsTo12(timeToMins(cfg.open))} – ${minsTo12(timeToMins(cfg.close))}</span>`
+                }
+            </div>`;
+        }).join('');
+    }
+
+    const serviceSelect = document.getElementById('service-select');
+    const dateInput     = document.getElementById('date-input');
+    const timeSelect    = document.getElementById('time-select');
+    const priceDisplay  = document.getElementById('price-display');
+    const priceValue    = document.getElementById('price-value');
+    const priceNote     = document.getElementById('price-note');
+    const dateMessage   = document.getElementById('date-message');
+
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    function updateSlots() {
+        const dateVal    = dateInput.value;
+        const serviceVal = serviceSelect.value;
+
+        dateMessage.classList.add('hidden');
+        priceDisplay.classList.add('hidden');
+        timeSelect.innerHTML = '<option value="">Select a service and date first...</option>';
+        timeSelect.disabled = true;
+        timeSelect.classList.add('bg-gray-100', 'text-gray-400');
+        timeSelect.classList.remove('bg-white', 'text-charcoal');
+
+        if (!dateVal || !serviceVal) return;
+
+        const date    = new Date(dateVal + 'T00:00:00');
+        const dayName = DAY_NAMES[date.getDay()];
+        const cfg     = schedule[dayName];
+
+        if (!cfg || cfg.closed) {
+            dateMessage.textContent = `Appointments are not available on ${dayName.charAt(0).toUpperCase() + dayName.slice(1)}s. Please choose a Friday, Saturday, or Sunday.`;
+            dateMessage.classList.remove('hidden');
+            return;
+        }
+
+        if (blockedDates.includes(dateVal)) {
+            dateMessage.textContent = 'This date is unavailable. Please choose another date.';
+            dateMessage.classList.remove('hidden');
+            return;
+        }
+
+        const svc      = SERVICE_CONFIG[serviceVal];
+        const isSunday = date.getDay() === 0;
+        const price    = isSunday ? svc.sundayPrice : svc.price;
+
+        priceValue.textContent = `$${price}`;
+        priceNote.textContent  = isSunday ? '★ Sunday Rush Day — flat rate applies' : `Regular rate for ${svc.label}`;
+        priceDisplay.classList.remove('hidden');
+
+        const slots = generateSlots(cfg.open, cfg.close, svc.duration);
+        if (slots.length === 0) {
+            dateMessage.textContent = 'No time slots available for this service on the selected date.';
+            dateMessage.classList.remove('hidden');
+            return;
+        }
+
+        timeSelect.innerHTML = '<option value="">Select a time...</option>';
+        slots.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.value;
+            opt.textContent = s.label;
+            timeSelect.appendChild(opt);
+        });
+        timeSelect.disabled = false;
+        timeSelect.classList.remove('bg-gray-100', 'text-gray-400');
+        timeSelect.classList.add('bg-white', 'text-charcoal');
+    }
+
+    serviceSelect.addEventListener('change', updateSlots);
+    dateInput.addEventListener('change', updateSlots);
+
+    function validatePhone(p) {
+        return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(p.replace(/\s/g, ''));
+    }
+
+    document.getElementById('booking-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const phone      = document.getElementById('phone-input').value.trim();
+        const phoneError = document.getElementById('phone-error');
+        if (!validatePhone(phone)) { phoneError.classList.remove('hidden'); return; }
+        phoneError.classList.add('hidden');
+
+        const serviceVal  = serviceSelect.value;
+        const dateVal     = dateInput.value;
+        const isSunday    = new Date(dateVal + 'T00:00:00').getDay() === 0;
+        const svc         = SERVICE_CONFIG[serviceVal];
+        const price       = isSunday ? svc.sundayPrice : svc.price;
+        const instagram   = document.getElementById('instagram-input').value.trim().replace(/^@/, '');
+
+        const data = {
+            name:       document.getElementById('name-input').value.trim(),
+            phone,
+            instagram:  instagram || null,
+            service:    svc.label,
+            serviceKey: serviceVal,
+            date:       dateVal,
+            timeSlot:   timeSelect.value,
+            price,
+            status:     'pending',
+            createdAt:  new Date().toISOString()
+        };
+
+        const btn      = document.getElementById('submit-btn');
+        const errorDiv = document.getElementById('booking-error');
+        btn.textContent = 'Submitting...';
+        btn.disabled    = true;
+        errorDiv.classList.add('hidden');
+
+        try {
+            if (window.db) {
+                await window.db.collection('appointments').add({
+                    ...data,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } else {
+                const existing = JSON.parse(localStorage.getItem('jb_appointments') || '[]');
+                existing.unshift({ id: 'local_' + Date.now(), ...data });
+                localStorage.setItem('jb_appointments', JSON.stringify(existing));
+            }
+            document.getElementById('booking-form').classList.add('hidden');
+            document.getElementById('booking-success').classList.remove('hidden');
+        } catch (err) {
+            errorDiv.textContent = 'Something went wrong. Please try again or contact Joel directly.';
+            errorDiv.classList.remove('hidden');
+            btn.textContent = 'Request Appointment';
+            btn.disabled    = false;
+        }
+    });
+
+    window.resetBookingForm = function () {
+        const form = document.getElementById('booking-form');
+        form.reset();
+        form.classList.remove('hidden');
+        document.getElementById('booking-success').classList.add('hidden');
+        timeSelect.disabled = true;
+        timeSelect.innerHTML = '<option value="">Select a service and date first...</option>';
+        priceDisplay.classList.add('hidden');
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderSchedule();       // show default hours immediately
+        loadScheduleAndBlocked(); // update if Firebase/localStorage has custom schedule
+    });
+    </script>
+</body>
+</html>
