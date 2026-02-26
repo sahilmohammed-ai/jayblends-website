@@ -12,11 +12,11 @@ window.db = null;
 window.JBFirebaseReady = false;
 
 (function () {
-    const isConfigured = FIREBASE_CONFIG.projectId !== 'YOUR_PROJECT_ID';
+    const isConfigured = firebaseConfig.projectId !== 'YOUR_PROJECT_ID';
     if (isConfigured && typeof firebase !== 'undefined') {
         try {
             if (!firebase.apps.length) {
-                firebase.initializeApp(FIREBASE_CONFIG);
+                firebase.initializeApp(firebaseConfig);
             }
             window.db = firebase.firestore();
             window.JBFirebaseReady = true;
