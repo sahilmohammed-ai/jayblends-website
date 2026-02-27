@@ -11,20 +11,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.getElementById('mobile-menu');
     const closeMenuBtn = document.getElementById('close-menu');
 
+    // Move mobile menu out of nav to escape backdrop-filter stacking context
+    if (mobileMenu) {
+        document.body.appendChild(mobileMenu);
+        mobileMenu.style.cssText = 'position:fixed;top:0;right:0;height:100%;width:16rem;background:#ffffff;z-index:200;box-shadow:-4px 0 20px rgba(0,0,0,0.15);transform:translateX(100%);transition:transform 0.3s ease-in-out;';
+    }
+
     // Create backdrop overlay
     const backdrop = document.createElement('div');
     backdrop.id = 'menu-backdrop';
-    backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:45;display:none;';
+    backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:190;display:none;';
     document.body.appendChild(backdrop);
 
     function openMenu() {
-        mobileMenu.classList.add('active');
+        mobileMenu.style.transform = 'translateX(0)';
+        mobileMenu.querySelectorAll('a').forEach(a => a.style.color = '#dc2626');
         backdrop.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
 
     function closeMenu() {
-        mobileMenu.classList.remove('active');
+        mobileMenu.style.transform = 'translateX(100%)';
         backdrop.style.display = 'none';
         document.body.style.overflow = '';
     }
