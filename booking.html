@@ -21,6 +21,8 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
@@ -39,6 +41,23 @@
         .form-input:focus { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); outline: none; }
         .pricing-card { transition: all 0.3s ease; }
         .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+
+        /* Flatpickr calendar theme */
+        .flatpickr-calendar { border-radius: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.18); border: 1px solid #e5e7eb; font-family: 'Inter', sans-serif; }
+        .flatpickr-months { background: #1e3a5f; border-radius: 1rem 1rem 0 0; }
+        .flatpickr-months .flatpickr-month { background: transparent; color: #fff; }
+        .flatpickr-current-month, .flatpickr-current-month span.cur-month, .flatpickr-current-month input.cur-year { color: #fff !important; font-weight: 600; }
+        .flatpickr-months .flatpickr-prev-month, .flatpickr-months .flatpickr-next-month { color: #fff; fill: #fff; }
+        .flatpickr-months .flatpickr-prev-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg { fill: #dc2626; }
+        .flatpickr-months .flatpickr-prev-month svg, .flatpickr-months .flatpickr-next-month svg { fill: #fff; }
+        .flatpickr-weekday { color: #1e3a5f; font-weight: 700; font-size: 0.7rem; }
+        .flatpickr-day { border-radius: 0.5rem; }
+        .flatpickr-day:hover { background: #fef2f2; border-color: #fca5a5; }
+        .flatpickr-day.selected, .flatpickr-day.selected:hover { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .flatpickr-day.today { border-color: #1e3a5f; font-weight: 700; }
+        .flatpickr-day.today:hover { background: #e0e7f0; border-color: #1e3a5f; }
+        .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover { color: #d1d5db; text-decoration: line-through; background: transparent; cursor: not-allowed; }
+        .flatpickr-day.nextMonthDay, .flatpickr-day.prevMonthDay { visibility: hidden; pointer-events: none; }
     </style>
 </head>
 <body class="font-body bg-cream text-charcoal">
@@ -180,7 +199,7 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-charcoal mb-2">Date <span class="text-accent">*</span></label>
-                    <input type="date" id="date-input" required class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-charcoal focus:outline-none" />
+                    <input type="text" id="date-input" placeholder="Select an available date..." readonly required class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-charcoal focus:outline-none cursor-pointer" />
                     <p id="date-message" class="mt-2 text-sm text-accent hidden"></p>
                 </div>
 
@@ -331,6 +350,7 @@
             blockedDates = JSON.parse(localStorage.getItem('jb_blocked') || '[]');
         }
         renderSchedule();
+        initFlatpickr(); // reinit with live schedule/blocked dates
     }
 
     function renderSchedule() {
@@ -368,8 +388,28 @@
     const priceNote     = document.getElementById('price-note');
     const dateMessage   = document.getElementById('date-message');
 
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
+    let fpInstance = null;
+
+    function initFlatpickr() {
+        if (fpInstance) fpInstance.destroy();
+        fpInstance = flatpickr(dateInput, {
+            minDate: 'today',
+            dateFormat: 'Y-m-d',
+            disableMobile: false,
+            disable: [
+                function(date) {
+                    const dayName = DAY_NAMES[date.getDay()];
+                    const cfg = schedule[dayName];
+                    if (!cfg || cfg.closed) return true;
+                    const y = date.getFullYear();
+                    const m = String(date.getMonth() + 1).padStart(2, '0');
+                    const d = String(date.getDate()).padStart(2, '0');
+                    return blockedDates.includes(`${y}-${m}-${d}`);
+                }
+            ],
+            onChange: function() { updateSlots(); }
+        });
+    }
 
     async function updateSlots() {
         const dateVal    = dateInput.value;
@@ -388,18 +428,7 @@
         const dayName = DAY_NAMES[date.getDay()];
         const cfg     = schedule[dayName];
 
-        if (!cfg || cfg.closed) {
-            dateMessage.textContent = `Appointments are not available on ${dayName.charAt(0).toUpperCase() + dayName.slice(1)}s. Please choose a Friday, Saturday, or Sunday.`;
-            dateMessage.classList.remove('hidden');
-            return;
-        }
-
-        if (blockedDates.includes(dateVal)) {
-            dateMessage.textContent = 'This date is unavailable. Please choose another date.';
-            dateMessage.classList.remove('hidden');
-            return;
-        }
-
+        // Closed/blocked dates are disabled in the calendar — skip straight to slots
         const svc      = SERVICE_CONFIG[serviceVal];
         const isSunday = date.getDay() === 0;
         const price    = isSunday ? svc.sundayPrice : svc.price;
@@ -446,7 +475,6 @@
     }
 
     serviceSelect.addEventListener('change', updateSlots);
-    dateInput.addEventListener('change', updateSlots);
 
     function validatePhone(p) {
         return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(p.replace(/\s/g, ''));
@@ -462,7 +490,35 @@
 
         const serviceVal  = serviceSelect.value;
         const dateVal     = dateInput.value;
-        const isSunday    = new Date(dateVal + 'T00:00:00').getDay() === 0;
+        const dateObj     = new Date(dateVal + 'T00:00:00');
+        const dayName     = DAY_NAMES[dateObj.getDay()];
+        const cfg         = schedule[dayName];
+
+        // Block closed days
+        if (!cfg || cfg.closed) {
+            const errorDiv = document.getElementById('booking-error');
+            errorDiv.textContent = `Appointments are not available on ${dayName.charAt(0).toUpperCase() + dayName.slice(1)}s. Please choose a Friday, Saturday, or Sunday.`;
+            errorDiv.classList.remove('hidden');
+            return;
+        }
+
+        // Block blocked dates
+        if (blockedDates.includes(dateVal)) {
+            const errorDiv = document.getElementById('booking-error');
+            errorDiv.textContent = 'This date is unavailable. Please choose another date.';
+            errorDiv.classList.remove('hidden');
+            return;
+        }
+
+        // Block missing time slot
+        if (!timeSelect.value) {
+            const errorDiv = document.getElementById('booking-error');
+            errorDiv.textContent = 'Please select a time slot.';
+            errorDiv.classList.remove('hidden');
+            return;
+        }
+
+        const isSunday    = dateObj.getDay() === 0;
         const svc         = SERVICE_CONFIG[serviceVal];
         const price       = isSunday ? svc.sundayPrice : svc.price;
         const instagram   = document.getElementById('instagram-input').value.trim().replace(/^@/, '');
@@ -519,6 +575,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         renderSchedule();       // show default hours immediately
+        initFlatpickr();        // init picker with default schedule
         loadScheduleAndBlocked(); // update if Firebase/localStorage has custom schedule
     });
     </script>
