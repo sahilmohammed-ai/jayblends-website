@@ -11,26 +11,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.getElementById('mobile-menu');
     const closeMenuBtn = document.getElementById('close-menu');
 
+    // Create backdrop overlay
+    const backdrop = document.createElement('div');
+    backdrop.id = 'menu-backdrop';
+    backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:45;display:none;';
+    document.body.appendChild(backdrop);
+
+    function openMenu() {
+        mobileMenu.classList.add('active');
+        backdrop.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+        backdrop.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
     if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+        mobileMenuBtn.addEventListener('click', openMenu);
     }
 
     if (closeMenuBtn && mobileMenu) {
-        closeMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+        closeMenuBtn.addEventListener('click', closeMenu);
     }
+
+    backdrop.addEventListener('click', closeMenu);
 
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
         if (mobileMenu && mobileMenu.classList.contains('active')) {
             if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
+                closeMenu();
             }
         }
     });
@@ -38,8 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close mobile menu on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+            closeMenu();
         }
     });
 

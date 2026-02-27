@@ -371,7 +371,7 @@
     const today = new Date().toISOString().split('T')[0];
     dateInput.setAttribute('min', today);
 
-    function updateSlots() {
+    async function updateSlots() {
         const dateVal    = dateInput.value;
         const serviceVal = serviceSelect.value;
 
@@ -408,7 +408,25 @@
         priceNote.textContent  = isSunday ? '★ Sunday Rush Day — flat rate applies' : `Regular rate for ${svc.label}`;
         priceDisplay.classList.remove('hidden');
 
-        const slots = generateSlots(cfg.open, cfg.close, svc.duration);
+        // Fetch confirmed slots for this date to block them out
+        let bookedSlots = [];
+        if (window.db) {
+            try {
+                const snap = await window.db.collection('appointments')
+                    .where('date', '==', dateVal).get();
+                bookedSlots = snap.docs
+                    .map(d => d.data())
+                    .filter(d => d.status === 'confirmed')
+                    .map(d => d.timeSlot);
+            } catch (e) {}
+        } else {
+            const local = JSON.parse(localStorage.getItem('jb_appointments') || '[]');
+            bookedSlots = local.filter(a => a.date === dateVal && a.status === 'confirmed').map(a => a.timeSlot);
+        }
+
+        const slots = generateSlots(cfg.open, cfg.close, svc.duration)
+            .filter(s => !bookedSlots.includes(s.value));
+
         if (slots.length === 0) {
             dateMessage.textContent = 'No time slots available for this service on the selected date.';
             dateMessage.classList.remove('hidden');

@@ -290,7 +290,7 @@
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     }
 
-    function appointmentCard(appt, showActions) {
+    function appointmentCard(appt, showActions, showDelete) {
         const statusColors = {
             pending:   'bg-yellow-100 text-yellow-700',
             confirmed: 'bg-green-100 text-green-700',
@@ -301,6 +301,10 @@
             <div class="flex gap-2 mt-4">
                 <button onclick="updateStatus('${appt.id}', 'confirmed')" class="flex-1 bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">✓ Confirm</button>
                 <button onclick="updateStatus('${appt.id}', 'denied')" class="flex-1 bg-accent text-white py-2 rounded-lg text-sm font-medium hover:bg-red transition-colors">✕ Deny</button>
+            </div>` : '';
+        const deleteBtn = showDelete ? `
+            <div class="mt-4">
+                <button onclick="deleteAppointment('${appt.id}')" class="w-full border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-300 py-2 rounded-lg text-sm transition-colors">Remove</button>
             </div>` : '';
         const instagram = appt.instagram ? `<a href="https://instagram.com/${appt.instagram}" target="_blank" class="text-accent hover:underline">@${appt.instagram}</a>` : '<span class="text-gray-400">—</span>';
 
@@ -322,6 +326,7 @@
                 <div><span class="text-gray-400">Instagram</span><br>${instagram}</div>
             </div>
             ${actions}
+            ${deleteBtn}
         </div>`;
     }
 
@@ -342,16 +347,28 @@
         document.getElementById('pending-badge').textContent = pending.length;
 
         document.getElementById('pending-list').innerHTML = pending.length
-            ? `<div class="grid md:grid-cols-2 gap-4">${pending.map(a => appointmentCard(a, true)).join('')}</div>`
+            ? `<div class="grid md:grid-cols-2 gap-4">${pending.map(a => appointmentCard(a, true, false)).join('')}</div>`
             : emptyState('No pending requests');
 
         document.getElementById('confirmed-list').innerHTML = confirmed.length
-            ? `<div class="grid md:grid-cols-2 gap-4">${confirmed.map(a => appointmentCard(a, false)).join('')}</div>`
+            ? `<div class="grid md:grid-cols-2 gap-4">${confirmed.map(a => appointmentCard(a, false, true)).join('')}</div>`
             : emptyState('No confirmed appointments');
 
         document.getElementById('denied-list').innerHTML = denied.length
-            ? `<div class="grid md:grid-cols-2 gap-4">${denied.map(a => appointmentCard(a, false)).join('')}</div>`
+            ? `<div class="grid md:grid-cols-2 gap-4">${denied.map(a => appointmentCard(a, false, true)).join('')}</div>`
             : emptyState('No denied requests');
+    }
+
+    async function deleteAppointment(id) {
+        if (!confirm('Remove this appointment permanently?')) return;
+        if (window.db) {
+            try {
+                await window.db.collection('appointments').doc(id).delete();
+            } catch (e) { alert('Error deleting. Check Firebase connection.'); return; }
+        }
+        appointments = appointments.filter(a => a.id !== id);
+        localStorage.setItem('jb_appointments', JSON.stringify(appointments));
+        renderAppointments();
     }
 
     async function updateStatus(id, status) {
