@@ -25,7 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openMenu() {
         mobileMenu.style.transform = 'translateX(0)';
-        mobileMenu.querySelectorAll('a').forEach(a => a.style.color = '#dc2626');
+        mobileMenu.querySelectorAll('a').forEach(a => {
+            a.style.color = '#dc2626';
+            a.style.backgroundColor = '#e5e7eb';
+            a.style.display = 'block';
+            a.style.borderRadius = '0.75rem';
+            a.style.border = '1px solid #d1d5db';
+        });
         backdrop.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
