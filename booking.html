@@ -128,7 +128,7 @@
                 <h2 class="font-display text-4xl text-primary mb-4">Services & Pricing</h2>
                 <div class="w-24 h-1 bg-accent mx-auto"></div>
             </div>
-            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            <div class="grid gap-6 max-w-sm mx-auto">
                 <div class="pricing-card bg-white rounded-2xl p-8 text-center border-2 border-gray-200 hover:border-accent shadow-sm scroll-animate">
                     <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,18 +139,6 @@
                     <p class="text-gray-500 text-sm mb-4">~40 minutes</p>
                     <div class="text-4xl font-bold text-accent mb-2">$25</div>
                     <p class="text-gray-500 text-sm">Friday, Saturday & Sunday</p>
-                </div>
-                <div class="pricing-card bg-primary rounded-2xl p-8 text-center scroll-animate animation-delay-200 relative overflow-hidden">
-                    <div class="absolute top-4 right-4 bg-accent text-white text-xs px-2 py-1 rounded-full font-semibold">Popular</div>
-                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="font-display text-2xl text-white mb-2">Haircut + Beard</h3>
-                    <p class="text-gray-300 text-sm mb-4">~45 minutes</p>
-                    <div class="text-4xl font-bold text-accent mb-2">$25</div>
-                    <p class="text-gray-300 text-sm">Friday, Saturday & Sunday</p>
                 </div>
             </div>
         </div>
@@ -181,8 +169,7 @@
                     <label class="block text-sm font-semibold text-charcoal mb-2">Service <span class="text-accent">*</span></label>
                     <select id="service-select" required class="form-input w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-charcoal focus:outline-none">
                         <option value="">Select a service...</option>
-                        <option value="haircut">Haircut — $25</option>
-                        <option value="haircut-beard">Haircut + Beard — $25</option>
+                        <option value="haircut" selected>Haircut — $25</option>
                     </select>
                 </div>
 
